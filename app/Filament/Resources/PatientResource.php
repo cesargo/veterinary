@@ -36,6 +36,25 @@ class PatientResource extends Resource
                 Forms\Components\DatePicker::make('date_of_birth')
                     ->required()
                     ->maxDAte(now()),
+                Forms\Components\Select::make('owner_id')
+                    ->relationship('owner', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->label('Email address')
+                            ->email()
+                            ->required()
+                            ->maxlength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->label('Phone number') //verrides the auto-generated label for each field. In this case, we want the Email label to be Email
+                            ->tel() //ensures that only valid email addresses can be input into the field.
+                            ->required(), //ensures that only valid phone numbers can be input into the field
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -43,7 +62,7 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Table\Colums\TextColumn::
             ])
             ->filters([
                 //
